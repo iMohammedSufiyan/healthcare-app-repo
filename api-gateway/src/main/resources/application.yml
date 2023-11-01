@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      routes:
+        - id: APPOINTMENT-SERVICE
+          uri: lb://APPOINTMENT-SERVICE
+          predicates:
+            - Path=/api/appointment/**, /v3/api-docs/appointment
+
+        - id: DOCTOR-SERVICE
+          uri: lb://DOCTOR-SERVICE
+          predicates:
+            - Path=/api/doctor/**, /v3/api-docs/doctor
+
+        - id: PATIENT-SERVICE
+          uri: lb://PATIENT-SERVICE
+          predicates:
+            - Path=/api/patients/**, /v3/api-docs/patient
+
+        - id: CLINIC-SERVICE
+          uri: lb://CLINIC-SERVICE
+          predicates:
+            - Path=/api/clinics/**, /v3/api-docs/clinics
+            - Path=/api/medical-services/**. /v3/api-docs/medical-services
+            - Path=/api/services-offered-by-clinics/**, /v3/api-docs/services-offered-by-clinics
+            - Path=/api/timeSlots/**, /v3/api-docs/timeSlots
+
+        - id: REVIEW-SERVICE
+          uri: lb://REVIEW-SERVICE
+          predicates:
+            - Path=/api/reviews/**, /v3/api-docs/review
+
+        - id: CLINIC-CONTROLLER-1
+          uri: lb://CLINIC-SERVICE
+          predicates:
+            - Path=/api/clinics/**, /v3/api-docs
+
+        - id: CLINIC-CONTROLLER-2
+          uri: lb://CLINIC-SERVICE
+          predicates:
+            - Path=/api/medical-services/**, /v3/api-docs
+
+        - id: CLINIC-CONTROLLER-3
+          uri: lb://CLINIC-SERVICE
+          predicates:
+            - Path=/api/services-offered-by-clinics/**, /v3/api-docs
+
+        - id: CLINIC-CONTROLLER-4
+          uri: lb://CLINIC-SERVICE
+          predicates:
+            - Path=/timeSlots/**, /v3/api-docs
